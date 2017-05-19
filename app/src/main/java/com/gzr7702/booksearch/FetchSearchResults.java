@@ -1,10 +1,14 @@
 package com.gzr7702.booksearch;
 
+import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.text.format.Time;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Fetch the results of a query based on Author, Title, Description
@@ -36,8 +42,6 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
 
         // Will contain the raw JSON response as a string.
         String resultJsonStr = null;
-
-        String format = "json";
 
         try {
             final String BASE_URL =
@@ -75,7 +79,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
             }
             resultJsonStr = buffer.toString();
             Log.v(LOG_TAG, resultJsonStr);
-            getDataFromJson(resultJsonStr, bookQuery);
+            //getDataFromJson(resultJsonStr, bookQuery);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
         //} catch (JSONException e) {
@@ -97,6 +101,25 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
     }
 
     private void getDataFromJson(String jsonString, String query) {
-        //TODO: make me!
+
+        try {
+            JSONObject bookJson = new JSONObject(jsonString);
+            JSONArray itemsArray = bookJson.getJSONArray("items");
+            JSONObject volumeInfoObj = new JSONObject("volumeInfo");
+            String bookTitle = bookJson.getString("title");
+
+            for(int i = 0; i < itemsArray.length(); i++) {
+                // These are the values that will be collected.
+                String title;
+                ArrayList<String> authors;
+                int coverImage;
+                // TODO: finsih me!
+
+            }
+
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            e.printStackTrace();
+        }
     }
 }
