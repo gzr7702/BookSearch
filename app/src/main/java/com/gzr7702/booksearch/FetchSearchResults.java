@@ -33,7 +33,6 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
             return null;
         }
         String bookQuery = params[0];
-        Log.v(LOG_TAG, bookQuery);
 
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
@@ -78,13 +77,12 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
                 return null;
             }
             resultJsonStr = buffer.toString();
-            Log.v(LOG_TAG, resultJsonStr);
-            //getDataFromJson(resultJsonStr, bookQuery);
+            getDataFromJson(resultJsonStr, bookQuery);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
-        //} catch (JSONException e) {
-        //    Log.e(LOG_TAG, e.getMessage(), e);
-        //    e.printStackTrace();
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            e.printStackTrace();
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -100,20 +98,24 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
         return null;
     }
 
-    private void getDataFromJson(String jsonString, String query) {
+    private void getDataFromJson(String jsonString, String query) throws JSONException {
 
         try {
             JSONObject bookJson = new JSONObject(jsonString);
             JSONArray itemsArray = bookJson.getJSONArray("items");
-            JSONObject volumeInfoObj = new JSONObject("volumeInfo");
-            String bookTitle = bookJson.getString("title");
 
             for(int i = 0; i < itemsArray.length(); i++) {
                 // These are the values that will be collected.
                 String title;
                 ArrayList<String> authors;
                 int coverImage;
-                // TODO: finsih me!
+
+                JSONObject item = itemsArray.getJSONObject(i);
+                JSONObject volumeInfoObj = item.getJSONObject("volumeInfo");
+
+                String bookTitle = volumeInfoObj.getString("title");
+
+                Log.v(LOG_TAG, bookTitle);
 
             }
 
