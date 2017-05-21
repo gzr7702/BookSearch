@@ -9,12 +9,12 @@ import java.util.ArrayList;
 public class Book {
     private String title;
     private ArrayList<String> authors;
-    private int cover;
+    private String description;
 
-    public Book (String title, ArrayList<String> authors, int cover) {
+    public Book (String title, ArrayList<String> authors, String description) {
         this.title = title;
         this.authors = authors;
-        this.cover = cover;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -25,7 +25,7 @@ public class Book {
         return this.authors;
     }
 
-    public int getCover() {
-        return this.cover;
+    public String getDescription() {
+        return this.description;
     }
 }

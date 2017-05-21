@@ -1,9 +1,7 @@
 package com.gzr7702.booksearch;
 
-import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.text.format.Time;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -17,16 +15,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Fetch the results of a query based on Author, Title, Description
  */
 
-public class FetchSearchResults extends AsyncTask<String, Void, Void>{
+public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<Book>>{
+    private ArrayList<Book> mBookArrayList = new ArrayList<>();
     private final String LOG_TAG = FetchSearchResults.class.getSimpleName();
+
     @Override
-    protected Void doInBackground(String... params) {
+    protected ArrayList<Book> doInBackground(String... params) {
 
         // Nothing to look up.
         if (params.length == 0) {
@@ -95,7 +94,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
                 }
             }
         }
-        return null;
+        return mBookArrayList;
     }
 
     private void getDataFromJson(String jsonString, String query) throws JSONException {
@@ -105,17 +104,23 @@ public class FetchSearchResults extends AsyncTask<String, Void, Void>{
             JSONArray itemsArray = bookJson.getJSONArray("items");
 
             for(int i = 0; i < itemsArray.length(); i++) {
-                // These are the values that will be collected.
-                String title;
-                ArrayList<String> authors;
-                int coverImage;
-
                 JSONObject item = itemsArray.getJSONObject(i);
                 JSONObject volumeInfoObj = item.getJSONObject("volumeInfo");
 
-                String bookTitle = volumeInfoObj.getString("title");
+                String title = volumeInfoObj.getString("title");
+                String description = volumeInfoObj.getString("description");
 
-                Log.v(LOG_TAG, bookTitle);
+                JSONArray authorsArray = volumeInfoObj.getJSONArray("authors");
+                ArrayList<String> authors = new ArrayList(authorsArray.length());
+                for (int j = 0; j < authorsArray.length(); j++) {
+                    authors.add(authorsArray.getString(j));
+                }
+
+                Log.v(LOG_TAG, title);
+                Log.v(LOG_TAG, authors.toString());
+                Log.v(LOG_TAG, description);
+
+                mBookArrayList.add(new Book(title, authors, description));
 
             }
 
