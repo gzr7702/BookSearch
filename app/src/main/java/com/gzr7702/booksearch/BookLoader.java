@@ -1,7 +1,8 @@
 package com.gzr7702.booksearch;
 
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -15,28 +16,40 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fetch the results of a query based on Author, Title, Description
  */
 
-public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<Book>>{
-    private ArrayList<Book> mBookArrayList = new ArrayList<>();
-    private final String LOG_TAG = FetchSearchResults.class.getSimpleName();
+public class BookLoader extends AsyncTaskLoader<List<Book>> {
+    private final String LOG_TAG = BookLoader.class.getSimpleName();
+    private String mSearchWord;
+
+    public BookLoader (Context context, String searchWord) {
+        super(context);
+        mSearchWord = searchWord;
+
+    }
 
     @Override
-    protected ArrayList<Book> doInBackground(String... params) {
+    protected void onStartLoading() {
+        forceLoad();
+    }
+
+    @Override
+    public List<Book> loadInBackground() {
 
         // Nothing to look up.
-        if (params.length == 0) {
+        if (mSearchWord == null) {
             return null;
         }
-        String bookQuery = params[0];
 
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
+        List<Book> bookList = new ArrayList<>();
 
         // Will contain the raw JSON response as a string.
         String resultJsonStr = null;
@@ -47,7 +60,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<Book>>
             final String QUERY_PARAM = "q";
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, params[0])
+                    .appendQueryParameter(QUERY_PARAM, mSearchWord)
                     .build();
 
             URL url = new URL(builtUri.toString());
@@ -76,7 +89,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<Book>>
                 return null;
             }
             resultJsonStr = buffer.toString();
-            getDataFromJson(resultJsonStr, bookQuery);
+            bookList = getDataFromJson(resultJsonStr);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
         } catch (JSONException e) {
@@ -94,10 +107,12 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<Book>>
                 }
             }
         }
-        return mBookArrayList;
+        return bookList;
     }
 
-    private void getDataFromJson(String jsonString, String query) throws JSONException {
+    private List<Book> getDataFromJson(String jsonString) throws JSONException {
+
+        List<Book> bookList = new ArrayList<>();
 
         try {
             JSONObject bookJson = new JSONObject(jsonString);
@@ -120,7 +135,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<Book>>
                 Log.v(LOG_TAG, authors.toString());
                 Log.v(LOG_TAG, description);
 
-                mBookArrayList.add(new Book(title, authors, description));
+                bookList.add(new Book(title, authors, description));
 
             }
 
@@ -128,5 +143,7 @@ public class FetchSearchResults extends AsyncTask<String, Void, ArrayList<Book>>
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
         }
+        return bookList;
     }
+
 }
