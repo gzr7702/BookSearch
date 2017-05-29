@@ -4,6 +4,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -126,16 +127,19 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
                 String description = volumeInfoObj.getString("description");
 
                 JSONArray authorsArray = volumeInfoObj.getJSONArray("authors");
-                ArrayList<String> authors = new ArrayList(authorsArray.length());
+                StringBuilder authors = new StringBuilder();
                 for (int j = 0; j < authorsArray.length(); j++) {
-                    authors.add(authorsArray.getString(j));
+                    if (j >= 1) {
+                        authors.append(", ");
+                    }
+                    authors.append(authorsArray.getString(j));
                 }
 
                 Log.v(LOG_TAG, title);
                 Log.v(LOG_TAG, authors.toString());
                 Log.v(LOG_TAG, description);
 
-                bookList.add(new Book(title, authors, description));
+                bookList.add(new Book(title, authors.toString(), description));
 
             }
 

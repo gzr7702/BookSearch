@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class Book {
     private String title;
-    private ArrayList<String> authors;
+    private String authors;
     private String description;
 
-    public Book (String title, ArrayList<String> authors, String description) {
+    public Book (String title, String authors, String description) {
         this.title = title;
         this.authors = authors;
         this.description = description;
@@ -21,7 +21,7 @@ public class Book {
         return this.title;
     }
 
-    public ArrayList<String> getAuthors() {
+    public String getAuthors() {
         return this.authors;
     }
 

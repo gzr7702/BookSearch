@@ -1,6 +1,7 @@
 package com.gzr7702.booksearch;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.app.LoaderManager;
