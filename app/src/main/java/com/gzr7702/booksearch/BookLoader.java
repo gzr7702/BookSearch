@@ -4,7 +4,6 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
-import android.util.StringBuilderPrinter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fetch the results of a query based on Author, Title, Description
+ * Fetch the results of a query based on Author, Title, Publish Date
  */
 
 public class BookLoader extends AsyncTaskLoader<List<Book>> {
@@ -30,7 +29,6 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
     public BookLoader (Context context, String searchWord) {
         super(context);
         mSearchWord = searchWord;
-
     }
 
     @Override
@@ -124,7 +122,7 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
                 JSONObject volumeInfoObj = item.getJSONObject("volumeInfo");
 
                 String title = volumeInfoObj.getString("title");
-                String description = volumeInfoObj.getString("description");
+                String publishDate = volumeInfoObj.getString("publishedDate");
 
                 JSONArray authorsArray = volumeInfoObj.getJSONArray("authors");
                 StringBuilder authors = new StringBuilder();
@@ -132,14 +130,10 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
                     if (j >= 1) {
                         authors.append(", ");
                     }
-                    authors.append(authorsArray.getString(j));
+                    authors.append(authorsArray.get(j));
                 }
 
-                Log.v(LOG_TAG, title);
-                Log.v(LOG_TAG, authors.toString());
-                Log.v(LOG_TAG, description);
-
-                bookList.add(new Book(title, authors.toString(), description));
+                bookList.add(new Book(title, authors.toString(), publishDate));
 
             }
 

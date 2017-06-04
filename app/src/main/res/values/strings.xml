@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BookSearch</string>
+    <string name="results_label">Search Results</string>
 </resources>

@@ -1,20 +1,21 @@
 package com.gzr7702.booksearch;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Created by rob on 5/18/17.
  */
 
-public class Book {
+public class Book implements Serializable {
     private String title;
     private String authors;
-    private String description;
+    private String publishDate;
 
-    public Book (String title, String authors, String description) {
+    public Book (String title, String authors, String publishDate) {
+        super();
         this.title = title;
         this.authors = authors;
-        this.description = description;
+        this.publishDate = publishDate;
     }
 
     public String getTitle() {
@@ -25,7 +26,7 @@ public class Book {
         return this.authors;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getPublishDate() {
+        return this.publishDate;
     }
 }

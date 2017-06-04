@@ -1,15 +1,12 @@
-package com.gzr7702.nyctourguide;
+package com.gzr7702.booksearch;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gzr7702.booksearch.Book;
-import com.gzr7702.booksearch.R;
 
 import java.util.ArrayList;
 
@@ -31,7 +28,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
     private class ViewHolder {
         TextView titleView;
         TextView authorView;
-        TextView descriptionView;
+        TextView publishDateview;
     }
 
     @Override
@@ -48,11 +45,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
             holder.titleView = (TextView) rowView.findViewById(R.id.title);
             holder.authorView = (TextView) rowView.findViewById(R.id.author);
-            holder.descriptionView = (TextView) rowView.findViewById(R.id.description);
+            holder.publishDateview = (TextView) rowView.findViewById(R.id.publish_date);
 
             holder.titleView.setText(mBookArrayList.get(position).getTitle());
             holder.authorView.setText(mBookArrayList.get(position).getAuthors());
-            holder.descriptionView.setText(mBookArrayList.get(position).getDescription());
+            holder.publishDateview.setText(mBookArrayList.get(position).getPublishDate());
             rowView.setTag(holder);
 
         } else {

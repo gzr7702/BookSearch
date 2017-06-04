@@ -3,47 +3,35 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:minHeight="@dimen/list_item_height"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="15dp">
 
     <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:id="@+id/author"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        android:padding="15dp">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/title"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:gravity="center_horizontal"
+          android:textSize="24sp"
+          android:textStyle="bold"/>
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:id="@+id/author"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_horizontal"
-                  android:gravity="center_horizontal"
-                  android:padding="10dip"
-                  android:textSize="24sp"
-                  android:textStyle="bold"/>
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/publish_date"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:gravity="center_horizontal"
+          android:textSize="18sp"
+          android:textStyle="italic"/>
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:id="@+id/description"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_horizontal"
-                  android:gravity="center_horizontal"
-                  android:padding="10dip"
-                  android:textSize="18sp"
-                  android:textStyle="italic"/>
-
-    </LinearLayout>
 </LinearLayout>
