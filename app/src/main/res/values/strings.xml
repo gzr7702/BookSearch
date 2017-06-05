@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">BookSearch</string>
     <string name="results_label">Search Results</string>
+    <string name="instructions_label">Please Type a Word</string>
+    <string name="button_label">Go!</string>
     <string name="empty_message">Nothing to Display</string>
     <string name="internet_unavailable_message">"Sorry, the internet is unreachable.
         Please check you're connection and try again!"</string>

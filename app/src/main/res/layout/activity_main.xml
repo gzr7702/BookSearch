@@ -16,11 +16,14 @@
         tools:layout_editor_absoluteY="8dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
             android:padding="20dp"
-            android:text="Type below and search away!"/>
+            android:text="@string/instructions_label"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/search_text"
@@ -36,6 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="20dp"
-            android:text="Amaze Me!"/>
+            android:text="@string/button_label"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
