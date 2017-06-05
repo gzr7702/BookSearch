@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class BookAdapter extends ArrayAdapter<Book> {
 
@@ -25,32 +28,33 @@ public class BookAdapter extends ArrayAdapter<Book> {
     }
 
     // Class to use View Holder pattern
-    private class ViewHolder {
-        TextView titleView;
-        TextView authorView;
-        TextView publishDateview;
+    static class ViewHolder {
+        @BindView(R.id.title) TextView titleView;
+        @BindView(R.id.author) TextView authorView;
+        @BindView(R.id.publish_date) TextView publishDateview;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View rowView = null;
-        ViewHolder holder = new ViewHolder();
+        ViewHolder holder;
 
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             rowView = inflater.inflate(R.layout.bookview_item, parent, false);
-
-            holder.titleView = (TextView) rowView.findViewById(R.id.title);
-            holder.authorView = (TextView) rowView.findViewById(R.id.author);
-            holder.publishDateview = (TextView) rowView.findViewById(R.id.publish_date);
+            holder = new ViewHolder(rowView);
+            rowView.setTag(holder);
 
             holder.titleView.setText(mBookArrayList.get(position).getTitle());
             holder.authorView.setText(mBookArrayList.get(position).getAuthors());
             holder.publishDateview.setText(mBookArrayList.get(position).getPublishDate());
-            rowView.setTag(holder);
 
         } else {
             holder = (ViewHolder) rowView.getTag();
