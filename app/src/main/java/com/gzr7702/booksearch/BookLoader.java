@@ -124,13 +124,18 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
                 String title = volumeInfoObj.getString("title");
                 String publishDate = volumeInfoObj.getString("publishedDate");
 
-                JSONArray authorsArray = volumeInfoObj.getJSONArray("authors");
                 StringBuilder authors = new StringBuilder();
-                for (int j = 0; j < authorsArray.length(); j++) {
-                    if (j >= 1) {
-                        authors.append(", ");
+                if (volumeInfoObj.has("authors")) {
+                    JSONArray authorsArray = volumeInfoObj.getJSONArray("authors");
+                    for (int j = 0; j < authorsArray.length(); j++) {
+                        if (j >= 1) {
+                            authors.append(", ");
+                        }
+                        authors.append(authorsArray.get(j));
                     }
-                    authors.append(authorsArray.get(j));
+                } else {
+                    // no authors
+                    authors.append("NO AUTHOR AVAILABLE");
                 }
 
                 bookList.add(new Book(title, authors.toString(), publishDate));
