@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,8 +55,8 @@ public class ResultsActivity extends AppCompatActivity
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(BOOK_LOADER_ID, null, ResultsActivity.this);
         } else {
-            //View loadingIndicator = findViewById(R.id.loading_indicator);
-            //loadingIndicator.setVisibility(View.GONE);
+            View loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.GONE);
 
             // Update empty state with no connection error message
             mEmptyStateTextView.setText(R.string.internet_unavailable_message);
@@ -69,6 +70,9 @@ public class ResultsActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+
         mEmptyStateTextView.setText(R.string.empty_message);
         mAdapter.clear();
 
