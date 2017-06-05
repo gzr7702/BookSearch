@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by rob on 5/18/17.
  */
 
-public class Book implements Serializable {
+public class Book {
     private String title;
     private String authors;
     private String publishDate;
