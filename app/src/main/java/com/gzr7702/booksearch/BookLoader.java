@@ -113,11 +113,11 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
 
         List<Book> bookList = new ArrayList<>();
 
-        try {
-            JSONObject bookJson = new JSONObject(jsonString);
-            JSONArray itemsArray = bookJson.getJSONArray("items");
+        JSONObject bookJson = new JSONObject(jsonString);
 
-            for(int i = 0; i < itemsArray.length(); i++) {
+        if (bookJson.has("items")) {
+            JSONArray itemsArray = bookJson.getJSONArray("items");
+            for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject item = itemsArray.getJSONObject(i);
                 JSONObject volumeInfoObj = item.getJSONObject("volumeInfo");
 
@@ -137,15 +137,10 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
                     // no authors
                     authors.append("NO AUTHOR AVAILABLE");
                 }
-
                 bookList.add(new Book(title, authors.toString(), publishDate));
-
             }
-
-        } catch (JSONException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-            e.printStackTrace();
         }
+
         return bookList;
     }
 
